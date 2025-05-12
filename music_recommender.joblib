@@ -1,0 +1,55 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f73778d0",
+   "metadata": {
+    "vscode": {
+     "languageId": "plaintext"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "from sklearn.model_selection import train_test_split\n",
+    "from sklearn.tree import DecisionTreeClassifier\n",
+    "from sklearn.metrics import accuracy_score\n",
+    "import joblib\n",
+    "\n",
+    "# Load the Dataset\n",
+    "df = pd.read_csv('music.csv')\n",
+    "\n",
+    "# Explore the Data\n",
+    "print(df.head())\n",
+    "print(df.describe())\n",
+    "print(df.shape)\n",
+    "\n",
+    "# Prepare the Data\n",
+    "X = df.drop(columns=['genre'])\n",
+    "y = df['genre']\n",
+    "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n",
+    "\n",
+    "# Train the Model\n",
+    "model = DecisionTreeClassifier()\n",
+    "model.fit(X_train, y_train)\n",
+    "\n",
+    "# Evaluate the Model\n",
+    "predictions = model.predict(X_test)\n",
+    "accuracy = accuracy_score(y_test, predictions)\n",
+    "print(f'Accuracy: {accuracy}')\n",
+    "\n",
+    "# Save the Model\n",
+    "joblib.dump(model, 'music_recommender.joblib')\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "language_info": {
+   "name": "python"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
